@@ -80,15 +80,17 @@ import Message from 'element-ui'
                 },5000)
             },
             sendMsg(){
-                let gameInfo={}
-                gameInfo.name = this.player1;
-                gameInfo.status = 1;
-                gameInfo.score = 100;
-                gameInfo.grid = [[0,0,0,0],
-                                [1,1,1,1],
-                                [2,2,2,2],
-                                [3,3,3,3]];  
-                this.socket.emit('gameing',gameInfo)
+                console.log(this)
+                console.log(window)
+                // let gameInfo={}
+                // gameInfo.name = this.player1;
+                // gameInfo.status = 1;
+                // gameInfo.score = 100;
+                // gameInfo.grid = [[0,0,0,0],
+                //                 [1,1,1,1],
+                //                 [2,2,2,2],
+                //                 [3,3,3,3]];  
+                // this.socket.emit('gameing',gameInfo)
                 // console.log("xioaxiyifasong")
             }
             

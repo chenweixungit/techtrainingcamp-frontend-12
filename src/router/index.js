@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Game from '../components/Game'
 import Login from '../views/login/EndLogin.vue'
 import Register from '../views/register/Register.vue'
+import MultipGame from '../views/game/MultipGame.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,10 @@ const routes = [
     path: '/',
     name: 'Login',
     component: Login
+  },{
+    path: '/multipgame',
+    name: 'MultipGame',
+    component: MultipGame
   }
   // {
   //   path: '/about',
