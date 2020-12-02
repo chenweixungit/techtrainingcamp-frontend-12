@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div>{{num}}</div>
         <el-button type="primary" v-on:click="connected()">连接</el-button>
         <el-button  type="success" v-on:click="sendMsg()">发送</el-button>
         <el-button type="primary" v-on:click="disconnect()">断开连接</el-button>
@@ -33,8 +34,6 @@
 <script>
 import io from 'socket.io-client'
 import Message from 'element-ui'
-    // import SockJS from 'sockjs-client'
-    // import Stomp from 'stompjs'
     export default {
         name: "Game",
         data(){
@@ -50,7 +49,8 @@ import Message from 'element-ui'
                 player3:'',
                 player2:'',
                 player4:'',
-                GameingClient:null
+                GameingClient:null,
+                num:1
             }
         },
         methods:{
@@ -75,13 +75,14 @@ import Message from 'element-ui'
                     // that.textarea = data
                     // that.textarea = that.textarea + '\n' + data
                 })
-                setTimeout(()=>{
-                    that.socket.emit('gameing',"game over")
-                },5000)
+                // setTimeout(()=>{
+                //     that.socket.emit('gameing',"game over")
+                // },5000)
             },
             sendMsg(){
-                console.log(this)
-                console.log(window)
+                this.num++;
+                // console.log(this)
+                // console.log(window)
                 // let gameInfo={}
                 // gameInfo.name = this.player1;
                 // gameInfo.status = 1;
@@ -90,7 +91,8 @@ import Message from 'element-ui'
                 //                 [1,1,1,1],
                 //                 [2,2,2,2],
                 //                 [3,3,3,3]];  
-                // this.socket.emit('gameing',gameInfo)
+                this.socket.emit('gameing',{name:'axun',age:15})
+                console.log("------------")
                 // console.log("xioaxiyifasong")
             }
             

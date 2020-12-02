@@ -51,9 +51,11 @@ export default {
           const response = userLogin(formData)
           let _this = this;
           response.then(e=>{
-            console.log(e)
             if(e.data.status === 'success'){
+              // 用vuex存储用户的登录信息
+              this.$store.commit('setUserInfo',e.data.object);
                 // 登录成功跳转
+              this.$router.push('/main')
             }
           }).catch({
 

@@ -1,8 +1,8 @@
 <template>
-  <div :style="backgroundDiv" style="height: 100vh">
+  <div :style="backgroundDiv" style="height: 100vh ">
     <el-card class="login-banner">
       <div slot="header" class="clearfix">
-        <span class="welcome_span">欢迎登录</span>
+        <span class="welcome_span">2048 欢迎登录</span>
       </div>
       <user-login/>
     </el-card>

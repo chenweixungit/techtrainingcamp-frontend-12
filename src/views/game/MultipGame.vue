@@ -1,5 +1,18 @@
 <template>
   <div class="container">
+    <el-dialog
+      title="游戏结束"
+      :visible.sync="dialogVisible"
+      width="30%"
+      v-if="dialogVisible"
+      >
+      <!-- :before-close="handleClose" -->
+      <span>您的分数为:{{finalScore}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="backToSoloGame()">返回单人游戏</el-button>
+        <el-button type="primary" @click="restart()">再来一局</el-button>
+      </span>
+    </el-dialog>
         <div class="heading">
             <h1 class="title">2048</h1>
             <div class="scores-container">
@@ -9,8 +22,10 @@
         </div>
 
         <div class="above-game">
-            <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
-            <a class="restart-button">New Game</a>
+            <!-- <p class="game-intro">欢迎来到 <strong>2048小游戏! </strong></p> -->
+            <p class="game-intro game-timer" v-if="timer >= 0"> 游戏倒计时: <strong>{{timer}} </strong>s</p>
+            <p class="game-intro game-timer" v-if="timer < 0"> 游戏结束  </p>
+            <a class="restart-button">新游戏</a>
         </div>
 
         <!-- 游戏结束画面 -->
@@ -19,7 +34,7 @@
         <p></p>
         <div class="lower">
 	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
+          <a class="retry-button">再玩一遍</a>
         </div>
       </div>
 
@@ -108,35 +123,35 @@
           <div class="game-container_small">
             <div class="grid-container">
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid1[0][0]}}</div>
+                <div class="grid-cell_small">{{grid1[1][0]}}</div>
+                <div class="grid-cell_small">{{grid1[2][0]}}</div>
+                <div class="grid-cell_small">{{grid1[3][0]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid1[0][1]}}</div>
+                <div class="grid-cell_small">{{grid1[1][1]}}</div>
+                <div class="grid-cell_small">{{grid1[2][1]}}</div>
+                <div class="grid-cell_small">{{grid1[3][1]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid1[0][2]}}</div>
+                <div class="grid-cell_small">{{grid1[1][2]}}</div>
+                <div class="grid-cell_small">{{grid1[2][2]}}</div>
+                <div class="grid-cell_small">{{grid1[3][2]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid1[0][3]}}</div>
+                <div class="grid-cell_small">{{grid1[1][3]}}</div>
+                <div class="grid-cell_small">{{grid1[2][3]}}</div>
+                <div class="grid-cell_small">{{grid1[3][3]}}</div>
               </div>
             </div>
           </div>
         </div>
         
-        <span class="leaderboard__name">Zhang Yunqi</span>
-        <span class="leaderboard__value">35.7<span>B</span></span>
+        <span class="leaderboard__name">{{player1}}</span>
+        <span class="leaderboard__value">{{score1}}<span>B</span></span>
       </article>
       
       <article class="leaderboard__profile" onclick="aaa()">
@@ -144,35 +159,35 @@
           <div class="game-container_small">
             <div class="grid-container">
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid2[0][0]}}</div>
+                <div class="grid-cell_small">{{grid2[1][0]}}</div>
+                <div class="grid-cell_small">{{grid2[2][0]}}</div>
+                <div class="grid-cell_small">{{grid2[3][0]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid2[0][1]}}</div>
+                <div class="grid-cell_small">{{grid2[1][1]}}</div>
+                <div class="grid-cell_small">{{grid2[2][1]}}</div>
+                <div class="grid-cell_small">{{grid2[3][1]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid2[0][2]}}</div>
+                <div class="grid-cell_small">{{grid2[1][2]}}</div>
+                <div class="grid-cell_small">{{grid2[2][2]}}</div>
+                <div class="grid-cell_small">{{grid2[3][2]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid2[0][3]}}</div>
+                <div class="grid-cell_small">{{grid2[1][3]}}</div>
+                <div class="grid-cell_small">{{grid2[2][3]}}</div>
+                <div class="grid-cell_small">{{grid2[3][3]}}</div>
               </div>
             </div>
           </div>
         </div>
      
-        <span class="leaderboard__name">Chen Weixun</span>
-        <span class="leaderboard__value">9.9<span>B</span></span>
+        <span class="leaderboard__name">{{player2}}</span>
+        <span class="leaderboard__value">{{score2}}<span>B</span></span>
       </article>
       
       <article class="leaderboard__profile" onclick="aaa()">
@@ -180,85 +195,52 @@
           <div class="game-container_small">
             <div class="grid-container">
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid3[0][0]}}</div>
+                <div class="grid-cell_small">{{grid3[1][0]}}</div>
+                <div class="grid-cell_small">{{grid3[2][0]}}</div>
+                <div class="grid-cell_small">{{grid3[3][0]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid3[0][1]}}</div>
+                <div class="grid-cell_small">{{grid3[1][1]}}</div>
+                <div class="grid-cell_small">{{grid3[2][1]}}</div>
+                <div class="grid-cell_small">{{grid3[3][1]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid3[0][2]}}</div>
+                <div class="grid-cell_small">{{grid3[1][2]}}</div>
+                <div class="grid-cell_small">{{grid3[2][2]}}</div>
+                <div class="grid-cell_small">{{grid3[3][2]}}</div>
               </div>
               <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
+                <div class="grid-cell_small">{{grid3[0][3]}}</div>
+                <div class="grid-cell_small">{{grid3[1][3]}}</div>
+                <div class="grid-cell_small">{{grid3[2][3]}}</div>
+                <div class="grid-cell_small">{{grid3[3][3]}}</div>
               </div>
             </div>
           </div>
         </div>
       
-        <span class="leaderboard__name">Yao Dongxu</span>
-        <span class="leaderboard__value">4.5<span>B</span></span>
+        <span class="leaderboard__name">{{player3}}</span>
+        <span class="leaderboard__value">{{score3}}<span>B</span></span>
       </article>
       
-      <article class="leaderboard__profile" onclick="aaa()">
-        <div class="test_div">
-          <div class="game-container_small">
-            <div class="grid-container">
-              <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-              </div>
-              <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-              </div>
-              <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-              </div>
-              <div class="grid-row_small">
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-                <div class="grid-cell_small"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-       
-        <span class="leaderboard__name">Zhang Leying</span>
-        <span class="leaderboard__value">2.1<span>B</span></span>
-      </article>
-
-      <img class="first_jpg" src="style/paihangbang/first.jpg"/>
-      <img class="second_jpg" src="style/paihangbang/second.jpg"/>
-      <img class="third_jpg" src="style/paihangbang/third.jpg"/>
     </main>
   </div>
-
-<input type="text" class="form-control" name="" id="barrage_content" placeholder="添加弹幕内容">
-<button class="danmu_btn danmu_btn-primary" id="submit_barraget">发送</button>
+<!-- <el-input placeholder="请输入弹幕内容" v-model="barrageMsg"></el-input>
+<el-button type="success" @click="sendBarrage()">发送</el-button> -->
+<!-- <input type="text" class="form-control" name="" id="barrage_content" placeholder="添加弹幕内容">
+<button class="danmu_btn danmu_btn-primary" id="submit_barraget">发送</button> -->
 <!-- 弹幕html -->
 
 <!-- 实时排名折线图 -->
-  <div id="mountNode"></div>
+  <div id="mountNode">
+    <div id="content" class="content">
+    </div>
+    <el-input placeholder="请输入弹幕内容" v-model="barrageMsg"></el-input>
+      <el-button @click="sendBarrage()" type="success">发送</el-button>
+  </div>
 <!-- 实时排名折线图 -->
 
 <!-- 模态框 -->
@@ -302,6 +284,7 @@
   <a href="#0" class="cd-modal-close">Close</a>
 </section> 
 <!-- 模态框 -->
+<!-- <el-button @click="getDocument" type="success">Document</el-button> -->
   </div>
 </template>
 <script>
@@ -309,16 +292,117 @@ import GameManager from '../../api/game/game_manager'
 import KeyboardInputManager from '../../api/game/keyboard_input_manager'
 import HTMLActuator from '../../api/game/html_actuator'
 import LocalStorageManager from '../../api/game/local_storage_manager'
+import Barrage from '../../api/game/barrage'
 
 export default {
   name: 'MultipGame',
   components: {},
-  data () {
-    return {
-      
+  watch:{
+    timer(newVal,oldVal){
+      if(this.timer < 0){
+        let socket = this.$store.state.socket
+        // 断开游戏连接
+        socket.emit('endGame',{room:this.$store.state.roomInfo.room})
+        this.dialogVisible = true
+      }
     }
   },
+  data () {
+    return {
+      dialogVisible:false,
+      tiles:[],
+      player1:null,
+      player2:null,
+      player3:null,
+      score1:0,
+      score2:0,
+      score3:0,
+      grid1:[],
+      grid2:[],
+      grid3:[],
+      loading:true,
+      timer:60,
+      finalScore:0,
+      barrageMsg:"",
+      barrage:null,
+      socket:null
+    }
+  },
+  methods:{
+    sendBarrage(){
+      // if(this.barrageMsg !== null && this.barrageMsg !== ""){
+      //   // this.barrage.shoot(this.barrageMsg)
+      // }
+      // this.barrageMsg = ""
+      if(this.socket !== null && this.barrageMsg !== null && this.barrageMsg !== ""){
+        this.socket.emit('comment',{room:this.$store.state.roomInfo.room,message:this.$store.state.userInfo.name + this.barrageMsg})
+        
+        this.socket.on('push_comment',data=>{
+          this.barrage.shoot(data.message)
+          this.barrageMsg = ""  
+        })
+      }
+      
+
+    },
+    handleClose(done) {
+      // let that = this
+      // this.$confirm('确认关闭？')
+      //   .then(_ => {
+      //     that.dialogVisible = false;
+      //     done()
+      //   })
+      //   .catch(_ => {});
+    },
+    getDocument(){
+      this.grid1 = new Array();
+      this.grid2 = new Array();
+      this.grid3 = new Array();
+      for(let i = 1;i <= 4;++i){
+      this.grid1[i - 1] = [new Array()];
+      this.grid2[i - 1] = [new Array()];
+      this.grid3[i - 1] = [new Array()];
+      for(let j = 1;j <= 4;++j){
+        this.grid1[i-1][j-1] = '3';
+        this.grid2[i-1][j-1] = '2';
+        this.grid3[i-1][j-1] = '2';
+        }
+      }
+    },
+    backToSoloGame(){
+      this.$store.commit('setIndex',1);
+      this.dialogVisible = false
+      this.$store.commit('setIndex',"1")
+      this.$store.commit('setGameMode',true);
+    },
+    restart(){
+      this.dialogVisible = false;
+      let socket = this.$store.state.socket
+      this.$store.commit('setLoadingState',true)
+      socket.emit('startGame',{name:this.$store.state.userInfo.name})
+      socket.on('start_game',data=>{
+          console.log("game starting")
+          console.log(data)
+          this.$store.commit('setLoadingState',false)
+          this.$store.commit('setRoomInfo',data)
+      })
+    }
+  }
+  ,
+  beforeUpdate(){
+  },
   beforeMount(){
+    this.socket = this.$store.state.socket
+    for(let i = 1;i <= 4;++i){
+      this.grid1[i - 1] = [new Array()];
+      this.grid2[i - 1] = [new Array()];
+      this.grid3[i - 1] = [new Array()];
+      for(let j = 1;j <= 4;++j){
+        this.grid1[i-1][j-1] = '';
+        this.grid2[i-1][j-1] = '';
+        this.grid3[i-1][j-1] = '';
+        }
+      }
     Function.prototype.bind = Function.prototype.bind || function (target) {
         var self = this;
         return function (args) {
@@ -423,17 +507,180 @@ export default {
         }
     };
     window.requestAnimationFrame(function () {
+      console.log("multipgame");
         new GameManager(4, KeyboardInputManager, HTMLActuator, LocalStorageManager);
     });
+    // 使用dom对象来监听按键
+    
+
   },
   mounted(){
+    // 初始化弹幕对象mounted
+    this.barrage = new Barrage('content');
+    // 计时器
+    setInterval(()=>{
+      this.timer = this.timer - 1
+    },1000)
+    // 开启监听弹幕
+    this.socket.on('push_comment',data=>{
+      this.barrage.shoot(data.message)
+      this.barrageMsg = ""  
+    })
+    let that = this
+    this.socket.on('push_event',(data)=>{
+        console.log(data)
+        if(data.name !== that.$store.state.userInfo.name){
+          if(that.player1 === null || that.player2 === null || that.player3 === null){
+            if(that.player1 === null && that.player2 !== data.name && that.player3 !== data.name){
+              that.player1 = data.name
+              that.grid1 = data.grid
+              that.score1 = data.score
+            }else if(that.player2 === null && that.player1 !== data.name && that.player3 !== data.name){
+              that.player2 = data.name
+              that.grid2 = data.grid
+              that.score2 = data.score
+            }else if(that.player3 === null && that.player2 !== data.name && that.player1 !== data.name){
+              that.player3 = data.name
+              that.grid3 = data.grid
+              that.score3 = data.score
+            }
+          }else{
+            if(that.player1 === data.name){
+              that.grid1 = data.grid
+              that.score1 = data.score
+            }
+            if(that.player2 === data.name){
+              that.grid2 = data.grid
+              that.score2 = data.score
+            }
+            if(that.player3 === data.name){
+              that.grid3 = data.grid
+              that.score3 = data.score
+            }
+          }
+        }
+      })
+
     
+    document.onkeydown = function(e){
+      console.log(that.$store.state.roomInfo)
+      let socket = that.$store.state.socket
+      let ele = e || event || window.event || arguments.callee.caller.arguments(0);
+      let score = document.querySelector('.score-container').textContent
+      
+      if(ele && ele.keyCode === 37){
+        setTimeout(()=>{
+          let curScore = document.querySelector('.score-container').textContent
+          let res = ""
+          for(let i of curScore){
+              if(i === '+'){
+                  break;
+              }
+              res += i
+          }
+          that.finalScore = res
+          let grid = []
+          for(let i = 0;i < 4;++i){
+            grid[i] = [new Array()]
+            for(let j = 0;j < 4;++j){
+              grid[i][j] = ''
+              let dom = document.querySelector('.tile-position-' + (i + 1) + '-' +(j + 1));
+              if(dom != null){
+                grid[i][j] = dom.firstChild.textContent
+              }
+            }
+          }
+          socket.emit('gameing',{room:that.$store.state.roomInfo.room,name:that.$store.state.userInfo.name,grid:grid,score:res})
+        },50)
+          
+      }else if(ele && ele.keyCode === 38){
+          setTimeout(()=>{
+            let curScore = document.querySelector('.score-container').textContent
+            let res = ""
+            for(let i of curScore){
+                if(i === '+'){
+                    break;
+                }
+                res += i
+            }
+            that.finalScore = res
+            let grid = []
+            for(let i = 0;i < 4;++i){
+              grid[i] = [new Array()]
+              for(let j = 0;j < 4;++j){
+                grid[i][j] = ''
+                let dom = document.querySelector('.tile-position-' + (i + 1) + '-' +(j + 1));
+                if(dom != null){
+                  grid[i][j] = dom.firstChild.textContent
+                }
+              }
+            }
+            socket.emit('gameing',{room:that.$store.state.roomInfo.room,name:that.$store.state.userInfo.name,grid:grid,score:res})
+          },50)
+      }else if(ele && ele.keyCode === 39){
+          setTimeout(()=>{
+            let curScore = document.querySelector('.score-container').textContent
+            let res = ""
+            for(let i of curScore){
+                if(i === '+'){
+                    break;
+                }
+                res += i
+            }
+            that.finalScore = res
+            let grid = []
+            for(let i = 0;i < 4;++i){
+              grid[i] = [new Array()]
+              for(let j = 0;j < 4;++j){
+                grid[i][j] = ''
+                let dom = document.querySelector('.tile-position-' + (i + 1) + '-' +(j + 1));
+                if(dom != null){
+                  grid[i][j] = dom.firstChild.textContent
+                }
+              }
+            }
+            socket.emit('gameing',{room:that.$store.state.roomInfo.room,name:that.$store.state.userInfo.name,grid:grid,score:res})
+          },50)
+      }else if(ele && ele.keyCode === 40){
+          setTimeout(()=>{
+            let curScore = document.querySelector('.score-container').textContent
+            let res = ""
+            for(let i of curScore){
+                if(i === '+'){
+                    break;
+                }
+                res += i
+            }
+            that.finalScore = res
+            let grid = []
+            for(let i = 0;i < 4;++i){
+              grid[i] = [new Array()]
+              for(let j = 0;j < 4;++j){
+                grid[i][j] = ''
+                let dom = document.querySelector('.tile-position-' + (i + 1) + '-' +(j + 1));
+                if(dom != null){
+                  grid[i][j] = dom.firstChild.textContent
+                }
+              }
+            }
+            socket.emit('gameing',{room:that.$store.state.roomInfo.room,name:that.$store.state.userInfo.name,grid:grid,score:res})
+          },50)
+      }
+      
+
+    }
   }
 }
 </script>
 
 <style scoped>
-  
+  @import '../../style/motaikuang/style.css';
+  @import '../../style/danmu/danmu.css';
+  @import '../../style/main.css';
+</style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+
 /* 左边排行榜css */
   .test_div{
       width: 180px;
@@ -441,13 +688,13 @@ export default {
       background-color:blanchedalmond;
   }
   .leaderboard {
-    max-width: 490px;
+    max-width: 350px;
     width: 100%;
     border-radius: 12px;
-    left: 50px;
+    left: 150px;
     top:10px;
     position: fixed; 
-  }
+  } 
   .leaderboard header {
     --start: 15%;
     height: 130px;
@@ -509,10 +756,10 @@ export default {
     transition: transform 0.25s cubic-bezier(0.7, 0.98, 0.86, 0.98), box-shadow 0.25s cubic-bezier(0.7, 0.98, 0.86, 0.98);
     background-color: #fff;
   }
-  .leaderboard__profile:hover {
+   .leaderboard__profile:hover {
     transform: scale(1.2);
     box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
-  }
+  } 
   .leaderboard__picture {
     max-width: 100%;
     width: 60px;
@@ -522,14 +769,14 @@ export default {
   .leaderboard__name {
     color: #979cb0;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 15px;
     letter-spacing: 0.64px;
     margin-left: 12px;
   }
   .leaderboard__value {
     color: #35d8ac;
     font-weight: 700;
-    font-size: 34px;
+    font-size: 20px;
     text-align: right;
   }
   .leaderboard__value > span {
@@ -675,804 +922,20 @@ export default {
     position: fixed;
     right: 30px;
     top: 50px;
-
+    max-width: 400px;
+    min-width: 400px;
+    height: 70%;
     /* max-width: 400px; */
     /* background: url('../images/bg.jpg') no-repeat center;
     background-size: cover; */
 }
-/* fonts/clear-sans.css */
-@import url("../../assets/fonts/clear-sans.css");
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #faf8ef;
-  color: #776e65;
-  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-  font-size: 18px; }
+.content{
+  max-width: 400px;
+  min-width: 400px;
+  /* background-color: black; */
+  height: 60%;
+}
 
-body {
-  margin: 80px 0; }
-
-.heading:after {
-  content: "";
-  display: block;
-  clear: both; }
-
-h1.title {
-  font-size: 80px;
-  font-weight: bold;
-  margin: 0;
-  display: block;
-  float: left; }
-
-@-webkit-keyframes move-up {
-  0% {
-    top: 25px;
-    opacity: 1; }
-
-  100% {
-    top: -50px;
-    opacity: 0; } }
-@-moz-keyframes move-up {
-  0% {
-    top: 25px;
-    opacity: 1; }
-
-  100% {
-    top: -50px;
-    opacity: 0; } }
-@keyframes move-up {
-  0% {
-    top: 25px;
-    opacity: 1; }
-
-  100% {
-    top: -50px;
-    opacity: 0; } }
-.scores-container {
-  float: right;
-  text-align: right; }
-
-.score-container, .best-container {
-  position: relative;
-  display: inline-block;
-  background: #bbada0;
-  padding: 15px 25px;
-  font-size: 25px;
-  height: 25px;
-  line-height: 47px;
-  font-weight: bold;
-  border-radius: 3px;
-  color: white;
-  margin-top: 8px;
-  text-align: center; }
-  .score-container:after, .best-container:after {
-    position: absolute;
-    width: 100%;
-    top: 10px;
-    left: 0;
-    text-transform: uppercase;
-    font-size: 13px;
-    line-height: 13px;
-    text-align: center;
-    color: #eee4da; }
-  .score-container .score-addition, .best-container .score-addition {
-    position: absolute;
-    right: 30px;
-    color: red;
-    font-size: 25px;
-    line-height: 25px;
-    font-weight: bold;
-    color: rgba(119, 110, 101, 0.9);
-    z-index: 100;
-    -webkit-animation: move-up 600ms ease-in;
-    -moz-animation: move-up 600ms ease-in;
-    animation: move-up 600ms ease-in;
-    -webkit-animation-fill-mode: both;
-    -moz-animation-fill-mode: both;
-    animation-fill-mode: both; }
-
-.score-container:after {
-  content: "Score"; }
-
-.best-container:after {
-  content: "Best"; }
-
-p {
-  margin-top: 0;
-  margin-bottom: 10px;
-  line-height: 1.65; }
-
-a {
-  color: #776e65;
-  font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer; }
-
-strong.important {
-  text-transform: uppercase; }
-
-hr {
-  border: none;
-  border-bottom: 1px solid #d8d4d0;
-  margin-top: 20px;
-  margin-bottom: 30px; }
-
-.container {
-  width: 500px;
-  margin: 0 auto; }
-
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0; }
-
-  100% {
-    opacity: 1; } }
-@-moz-keyframes fade-in {
-  0% {
-    opacity: 0; }
-
-  100% {
-    opacity: 1; } }
-@keyframes fade-in {
-  0% {
-    opacity: 0; }
-
-  100% {
-    opacity: 1; } }
-.game-container {
-  margin-top: 40px;
-  position: relative;
-  padding: 15px;
-  cursor: default;
-  -webkit-touch-callout: none;
-  -ms-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -ms-touch-action: none;
-  touch-action: none;
-  background: #bbada0;
-  border-radius: 6px;
-  width: 500px;
-  height: 500px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-  .game-container .game-message {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(238, 228, 218, 0.5);
-    z-index: 100;
-    text-align: center;
-    -webkit-animation: fade-in 800ms ease 1200ms;
-    -moz-animation: fade-in 800ms ease 1200ms;
-    animation: fade-in 800ms ease 1200ms;
-    -webkit-animation-fill-mode: both;
-    -moz-animation-fill-mode: both;
-    animation-fill-mode: both; }
-    .game-container .game-message p {
-      font-size: 60px;
-      font-weight: bold;
-      height: 60px;
-      line-height: 60px;
-      margin-top: 222px; }
-    .game-container .game-message .lower {
-      display: block;
-      margin-top: 59px; }
-    .game-container .game-message a {
-      display: inline-block;
-      background: #8f7a66;
-      border-radius: 3px;
-      padding: 0 20px;
-      text-decoration: none;
-      color: #f9f6f2;
-      height: 40px;
-      line-height: 42px;
-      margin-left: 9px; }
-      .game-container .game-message a.keep-playing-button {
-        display: none; }
-    .game-container .game-message.game-won {
-      background: rgba(237, 194, 46, 0.5);
-      color: #f9f6f2; }
-      .game-container .game-message.game-won a.keep-playing-button {
-        display: inline-block; }
-    .game-container .game-message.game-won, .game-container .game-message.game-over {
-      display: block; }
-
-.grid-container {
-  position: absolute;
-  z-index: 1; }
-
-.grid-row {
-  margin-bottom: 15px; }
-  .grid-row:last-child {
-    margin-bottom: 0; }
-  .grid-row:after {
-    content: "";
-    display: block;
-    clear: both; }
-
-.grid-cell {
-  width: 106.25px;
-  height: 106.25px;
-  margin-right: 15px;
-  float: left;
-  border-radius: 3px;
-  background: rgba(238, 228, 218, 0.35); }
-  .grid-cell:last-child {
-    margin-right: 0; }
-
-
-.grid-row_small {
-  margin-bottom: 10px; }
-  .grid-row_small:last-child {
-    margin-bottom: 0; }
-  .grid-row_small:after {
-    content: "";
-    display: block;
-    clear: both; }
-
-.grid-cell_small {
-  width: 32.25px;
-  height: 32.25px;
-  margin-right: 10px;
-  float: left;
-  border-radius: 3px;
-  background: rgba(238, 228, 218, 0.35); }
-
-.game-container_small {
-  /* margin-top: 17px; */
-  position: relative;
-  padding: 10px;
-  cursor: default;
-  -webkit-touch-callout: none;
-  -ms-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -ms-touch-action: none;
-  touch-action: none;
-  background: #bbada0;
-  border-radius: 6px;
-  width: 100%;
-  height: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-
-
-  .grid-cell:last-child {
-    margin-right: 0; }
-.tile-container {
-  position: absolute;
-  z-index: 2; }
-
-.tile, .tile .tile-inner {
-  width: 107px;
-  height: 107px;
-  line-height: 107px; }
-.tile.tile-position-1-1 {
-  -webkit-transform: translate(0px, 0px);
-  -moz-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate(0px, 0px); }
-.tile.tile-position-1-2 {
-  -webkit-transform: translate(0px, 121px);
-  -moz-transform: translate(0px, 121px);
-  -ms-transform: translate(0px, 121px);
-  transform: translate(0px, 121px); }
-.tile.tile-position-1-3 {
-  -webkit-transform: translate(0px, 242px);
-  -moz-transform: translate(0px, 242px);
-  -ms-transform: translate(0px, 242px);
-  transform: translate(0px, 242px); }
-.tile.tile-position-1-4 {
-  -webkit-transform: translate(0px, 363px);
-  -moz-transform: translate(0px, 363px);
-  -ms-transform: translate(0px, 363px);
-  transform: translate(0px, 363px); }
-.tile.tile-position-2-1 {
-  -webkit-transform: translate(121px, 0px);
-  -moz-transform: translate(121px, 0px);
-  -ms-transform: translate(121px, 0px);
-  transform: translate(121px, 0px); }
-.tile.tile-position-2-2 {
-  -webkit-transform: translate(121px, 121px);
-  -moz-transform: translate(121px, 121px);
-  -ms-transform: translate(121px, 121px);
-  transform: translate(121px, 121px); }
-.tile.tile-position-2-3 {
-  -webkit-transform: translate(121px, 242px);
-  -moz-transform: translate(121px, 242px);
-  -ms-transform: translate(121px, 242px);
-  transform: translate(121px, 242px); }
-.tile.tile-position-2-4 {
-  -webkit-transform: translate(121px, 363px);
-  -moz-transform: translate(121px, 363px);
-  -ms-transform: translate(121px, 363px);
-  transform: translate(121px, 363px); }
-.tile.tile-position-3-1 {
-  -webkit-transform: translate(242px, 0px);
-  -moz-transform: translate(242px, 0px);
-  -ms-transform: translate(242px, 0px);
-  transform: translate(242px, 0px); }
-.tile.tile-position-3-2 {
-  -webkit-transform: translate(242px, 121px);
-  -moz-transform: translate(242px, 121px);
-  -ms-transform: translate(242px, 121px);
-  transform: translate(242px, 121px); }
-.tile.tile-position-3-3 {
-  -webkit-transform: translate(242px, 242px);
-  -moz-transform: translate(242px, 242px);
-  -ms-transform: translate(242px, 242px);
-  transform: translate(242px, 242px); }
-.tile.tile-position-3-4 {
-  -webkit-transform: translate(242px, 363px);
-  -moz-transform: translate(242px, 363px);
-  -ms-transform: translate(242px, 363px);
-  transform: translate(242px, 363px); }
-.tile.tile-position-4-1 {
-  -webkit-transform: translate(363px, 0px);
-  -moz-transform: translate(363px, 0px);
-  -ms-transform: translate(363px, 0px);
-  transform: translate(363px, 0px); }
-.tile.tile-position-4-2 {
-  -webkit-transform: translate(363px, 121px);
-  -moz-transform: translate(363px, 121px);
-  -ms-transform: translate(363px, 121px);
-  transform: translate(363px, 121px); }
-.tile.tile-position-4-3 {
-  -webkit-transform: translate(363px, 242px);
-  -moz-transform: translate(363px, 242px);
-  -ms-transform: translate(363px, 242px);
-  transform: translate(363px, 242px); }
-.tile.tile-position-4-4 {
-  -webkit-transform: translate(363px, 363px);
-  -moz-transform: translate(363px, 363px);
-  -ms-transform: translate(363px, 363px);
-  transform: translate(363px, 363px); }
-
-.tile {
-  position: absolute;
-  -webkit-transition: 100ms ease-in-out;
-  -moz-transition: 100ms ease-in-out;
-  transition: 100ms ease-in-out;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform; }
-  .tile .tile-inner {
-    border-radius: 3px;
-    background: #eee4da;
-    text-align: center;
-    font-weight: bold;
-    z-index: 10;
-    font-size: 55px; }
-  .tile.tile-2 .tile-inner {
-    background: #eee4da;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
-  .tile.tile-4 .tile-inner {
-    background: #ede0c8;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
-  .tile.tile-8 .tile-inner {
-    color: #f9f6f2;
-    background: #f2b179; }
-  .tile.tile-16 .tile-inner {
-    color: #f9f6f2;
-    background: #f59563; }
-  .tile.tile-32 .tile-inner {
-    color: #f9f6f2;
-    background: #f67c5f; }
-  .tile.tile-64 .tile-inner {
-    color: #f9f6f2;
-    background: #f65e3b; }
-  .tile.tile-128 .tile-inner {
-    color: #f9f6f2;
-    background: #edcf72;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
-    font-size: 45px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-128 .tile-inner {
-        font-size: 25px; } }
-  .tile.tile-256 .tile-inner {
-    color: #f9f6f2;
-    background: #edcc61;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
-    font-size: 45px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-256 .tile-inner {
-        font-size: 25px; } }
-  .tile.tile-512 .tile-inner {
-    color: #f9f6f2;
-    background: #edc850;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683), inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
-    font-size: 45px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-512 .tile-inner {
-        font-size: 25px; } }
-  .tile.tile-1024 .tile-inner {
-    color: #f9f6f2;
-    background: #edc53f;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
-    font-size: 35px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-1024 .tile-inner {
-        font-size: 15px; } }
-  .tile.tile-2048 .tile-inner {
-    color: #f9f6f2;
-    background: #edc22e;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556), inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
-    font-size: 35px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-2048 .tile-inner {
-        font-size: 15px; } }
-  .tile.tile-super .tile-inner {
-    color: #f9f6f2;
-    background: #3c3a32;
-    font-size: 30px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-super .tile-inner {
-        font-size: 10px; } }
-
-@-webkit-keyframes appear {
-  0% {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0); }
-
-  100% {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); } }
-@-moz-keyframes appear {
-  0% {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0); }
-
-  100% {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); } }
-@keyframes appear {
-  0% {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0); }
-
-  100% {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); } }
-.tile-new .tile-inner {
-  -webkit-animation: appear 200ms ease 100ms;
-  -moz-animation: appear 200ms ease 100ms;
-  animation: appear 200ms ease 100ms;
-  -webkit-animation-fill-mode: backwards;
-  -moz-animation-fill-mode: backwards;
-  animation-fill-mode: backwards; }
-
-@-webkit-keyframes pop {
-  0% {
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0); }
-
-  50% {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2); }
-
-  100% {
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); } }
-@-moz-keyframes pop {
-  0% {
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0); }
-
-  50% {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2); }
-
-  100% {
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); } }
-@keyframes pop {
-  0% {
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    transform: scale(0); }
-
-  50% {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2); }
-
-  100% {
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); } }
-.tile-merged .tile-inner {
-  z-index: 20;
-  -webkit-animation: pop 200ms ease 100ms;
-  -moz-animation: pop 200ms ease 100ms;
-  animation: pop 200ms ease 100ms;
-  -webkit-animation-fill-mode: backwards;
-  -moz-animation-fill-mode: backwards;
-  animation-fill-mode: backwards; }
-
-.above-game:after {
-  content: "";
-  display: block;
-  clear: both; }
-
-.game-intro {
-  float: left;
-  line-height: 42px;
-  margin-bottom: 0; }
-
-.restart-button {
-  display: inline-block;
-  background: #8f7a66;
-  border-radius: 3px;
-  padding: 0 20px;
-  text-decoration: none;
-  color: #f9f6f2;
-  height: 40px;
-  line-height: 42px;
-  display: block;
-  text-align: center;
-  float: right; }
-
-.game-explanation {
-  margin-top: 50px; }
-
-@media screen and (max-width: 520px) {
-  html, body {
-    font-size: 15px; }
-
-  body {
-    margin: 20px 0;
-    padding: 0 20px; }
-
-  h1.title {
-    font-size: 27px;
-    margin-top: 15px; }
-
-  .container {
-    width: 280px;
-    margin: 0 auto; }
-
-  .score-container, .best-container {
-    margin-top: 0;
-    padding: 15px 10px;
-    min-width: 40px; }
-
-  .heading {
-    margin-bottom: 10px; }
-
-  .game-intro {
-    width: 55%;
-    display: block;
-    box-sizing: border-box;
-    line-height: 1.65; }
-
-  .restart-button {
-    width: 42%;
-    padding: 0;
-    display: block;
-    box-sizing: border-box;
-    margin-top: 2px; }
-
-  .game-container {
-    margin-top: 17px;
-    position: relative;
-    padding: 10px;
-    cursor: default;
-    -webkit-touch-callout: none;
-    -ms-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -ms-touch-action: none;
-    touch-action: none;
-    background: #bbada0;
-    border-radius: 6px;
-    width: 280px;
-    height: 280px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box; }
-    .game-container .game-message {
-      display: none;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background: rgba(238, 228, 218, 0.5);
-      z-index: 100;
-      text-align: center;
-      -webkit-animation: fade-in 800ms ease 1200ms;
-      -moz-animation: fade-in 800ms ease 1200ms;
-      animation: fade-in 800ms ease 1200ms;
-      -webkit-animation-fill-mode: both;
-      -moz-animation-fill-mode: both;
-      animation-fill-mode: both; }
-      .game-container .game-message p {
-        font-size: 60px;
-        font-weight: bold;
-        height: 60px;
-        line-height: 60px;
-        margin-top: 222px; }
-      .game-container .game-message .lower {
-        display: block;
-        margin-top: 59px; }
-      .game-container .game-message a {
-        display: inline-block;
-        background: #8f7a66;
-        border-radius: 3px;
-        padding: 0 20px;
-        text-decoration: none;
-        color: #f9f6f2;
-        height: 40px;
-        line-height: 42px;
-        margin-left: 9px; }
-        .game-container .game-message a.keep-playing-button {
-          display: none; }
-      .game-container .game-message.game-won {
-        background: rgba(237, 194, 46, 0.5);
-        color: #f9f6f2; }
-        .game-container .game-message.game-won a.keep-playing-button {
-          display: inline-block; }
-      .game-container .game-message.game-won, .game-container .game-message.game-over {
-        display: block; }
-
-  .grid-container {
-    position: absolute;
-    z-index: 1; }
 
   
-
-  .grid-cell {
-    width: 57.5px;
-    height: 57.5px;
-    margin-right: 10px;
-    float: left;
-    border-radius: 3px;
-    background: rgba(238, 228, 218, 0.35); }
-    .grid-cell:last-child {
-      margin-right: 0; }
-
-  .tile-container {
-    position: absolute;
-    z-index: 2; }
-
-  .tile, .tile .tile-inner {
-    width: 58px;
-    height: 58px;
-    line-height: 58px; }
-  .tile.tile-position-1-1 {
-    -webkit-transform: translate(0px, 0px);
-    -moz-transform: translate(0px, 0px);
-    -ms-transform: translate(0px, 0px);
-    transform: translate(0px, 0px); }
-  .tile.tile-position-1-2 {
-    -webkit-transform: translate(0px, 67px);
-    -moz-transform: translate(0px, 67px);
-    -ms-transform: translate(0px, 67px);
-    transform: translate(0px, 67px); }
-  .tile.tile-position-1-3 {
-    -webkit-transform: translate(0px, 135px);
-    -moz-transform: translate(0px, 135px);
-    -ms-transform: translate(0px, 135px);
-    transform: translate(0px, 135px); }
-  .tile.tile-position-1-4 {
-    -webkit-transform: translate(0px, 202px);
-    -moz-transform: translate(0px, 202px);
-    -ms-transform: translate(0px, 202px);
-    transform: translate(0px, 202px); }
-  .tile.tile-position-2-1 {
-    -webkit-transform: translate(67px, 0px);
-    -moz-transform: translate(67px, 0px);
-    -ms-transform: translate(67px, 0px);
-    transform: translate(67px, 0px); }
-  .tile.tile-position-2-2 {
-    -webkit-transform: translate(67px, 67px);
-    -moz-transform: translate(67px, 67px);
-    -ms-transform: translate(67px, 67px);
-    transform: translate(67px, 67px); }
-  .tile.tile-position-2-3 {
-    -webkit-transform: translate(67px, 135px);
-    -moz-transform: translate(67px, 135px);
-    -ms-transform: translate(67px, 135px);
-    transform: translate(67px, 135px); }
-  .tile.tile-position-2-4 {
-    -webkit-transform: translate(67px, 202px);
-    -moz-transform: translate(67px, 202px);
-    -ms-transform: translate(67px, 202px);
-    transform: translate(67px, 202px); }
-  .tile.tile-position-3-1 {
-    -webkit-transform: translate(135px, 0px);
-    -moz-transform: translate(135px, 0px);
-    -ms-transform: translate(135px, 0px);
-    transform: translate(135px, 0px); }
-  .tile.tile-position-3-2 {
-    -webkit-transform: translate(135px, 67px);
-    -moz-transform: translate(135px, 67px);
-    -ms-transform: translate(135px, 67px);
-    transform: translate(135px, 67px); }
-  .tile.tile-position-3-3 {
-    -webkit-transform: translate(135px, 135px);
-    -moz-transform: translate(135px, 135px);
-    -ms-transform: translate(135px, 135px);
-    transform: translate(135px, 135px); }
-  .tile.tile-position-3-4 {
-    -webkit-transform: translate(135px, 202px);
-    -moz-transform: translate(135px, 202px);
-    -ms-transform: translate(135px, 202px);
-    transform: translate(135px, 202px); }
-  .tile.tile-position-4-1 {
-    -webkit-transform: translate(202px, 0px);
-    -moz-transform: translate(202px, 0px);
-    -ms-transform: translate(202px, 0px);
-    transform: translate(202px, 0px); }
-  .tile.tile-position-4-2 {
-    -webkit-transform: translate(202px, 67px);
-    -moz-transform: translate(202px, 67px);
-    -ms-transform: translate(202px, 67px);
-    transform: translate(202px, 67px); }
-  .tile.tile-position-4-3 {
-    -webkit-transform: translate(202px, 135px);
-    -moz-transform: translate(202px, 135px);
-    -ms-transform: translate(202px, 135px);
-    transform: translate(202px, 135px); }
-  .tile.tile-position-4-4 {
-    -webkit-transform: translate(202px, 202px);
-    -moz-transform: translate(202px, 202px);
-    -ms-transform: translate(202px, 202px);
-    transform: translate(202px, 202px); }
-
-  .tile .tile-inner {
-    font-size: 35px; }
-
-  .game-message p {
-    font-size: 30px !important;
-    height: 30px !important;
-    line-height: 30px !important;
-    margin-top: 90px !important; }
-  .game-message .lower {
-    margin-top: 30px !important; } }
-
-
 </style>

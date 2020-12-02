@@ -90,7 +90,6 @@ export default {
           })
       },
       userRegister(){
-          let p = new Promise();
           let formData = new FormData();
           formData.append("telephone",this.dataForm.telephone);
           formData.append("password",this.dataForm.password);

@@ -4,7 +4,9 @@ import Game from '../components/Game'
 import Login from '../views/login/EndLogin.vue'
 import Register from '../views/register/Register.vue'
 import MultipGame from '../views/game/MultipGame.vue'
-
+import menu from '../views/game/GameMenu.vue'
+import MainPage from '../views/game/MainPage.vue'
+import SoloGame from '../views/game/SoloGame.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,6 +28,21 @@ const routes = [
     path: '/multipgame',
     name: 'MultipGame',
     component: MultipGame
+  }
+  ,{
+    path: '/menu',
+    name: 'menu',
+    component: menu
+  }
+  ,{
+    path: '/main',
+    name: 'MainPage',
+    component: MainPage
+  }
+  ,{
+    path:'/sologame',
+    name: 'SoloGame',
+    component: SoloGame
   }
   // {
   //   path: '/about',
